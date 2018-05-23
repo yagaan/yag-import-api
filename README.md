@@ -45,6 +45,9 @@ In order to reduce memory consumption you can use a ``Supplier<Issue>`` to write
 ```
 
 
+## License
+
+See the [LICENSE](https://github.com/alfoch/yag-import-api/master/LICENSE) file.
 
 
 
