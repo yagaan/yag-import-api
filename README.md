@@ -22,8 +22,8 @@ Java API to read/write Scan results report that can be processed by the [YAG Sui
 	
 	//create some issues in function of the files relative paths and lines
 	List<Issue> issues = new ArrayList<>();
-	issues.add(new Issue("test.rule1",new Fragment("Test1.java", 12))); //issue detected by checker test.rule1 at line 12
-	issues.add(new Issue("test.rule1",new Fragment("Test1.java", 18)));
+	issues.add(new Issue("test.rule1",new Fragment("src/main/java/Test1.java", 12))); //issue detected by checker test.rule1 at line 12
+	issues.add(new Issue("test.rule1",new Fragment("src/main.java/Test1.java", 18)));
 	
 	//store it in a JSON file
 	OutputStream output = new FileOutputStream(new File("report.yson"));
@@ -44,6 +44,23 @@ In order to reduce memory consumption you can use a ``Supplier<Issue>`` to write
 	ScanIO.write(results, supplier, output);
 ```
 
+### Issue informations
+
+If the scanner provide some informations about the propagation path that is at the origin of the issue, then it can be added to an issue this way:
+
+```java 
+    Path path = new Path().add(new Fragment("src/main/java/Test1.java", 6)).add(new Fragment("src/main/java/Test1.java", 8));
+    issue.setPath(path);
+```
+
+### Fragment positions
+
+Required informations about a source code fragment are `line` and `file` relative path. Additional informations can be added to increase precision of scanned code location :
+
+```java 
+    Fragment fragment = new Fragment("src/main/java/Test1.java", 6));
+    fragment.column(8).length(10);
+```
 
 ## License
 
