@@ -16,6 +16,7 @@ public class Fragment {
 	public Fragment(String file, int line) {
 		super();
 		this.file = file;
+		this.line = line;
 	}
 
 	
