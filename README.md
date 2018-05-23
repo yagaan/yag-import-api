@@ -1,5 +1,5 @@
 # yag-import-api
-Java API to read/write Scan results report that can be processed by the YAG Suite (). The YAG Suite will reduce false positives rate and provide a CVSS score based on machine learning and a hierarchical knowledge filled by some users feedbacks.
+Java API to read/write Scan results report that can be processed by the [YAG Suite] (http://www.yagaan.com/products.html|http://www.yagaan.com/products.html). Issues wil be analyzed to reduce false positives rate and provide a CVSS score based on machine learning and a hierarchical knowledge filled by some users feedbacks.
 
 ## Quick Start
 
@@ -9,6 +9,7 @@ Java API to read/write Scan results report that can be processed by the YAG Suit
 
 ### Export a Scan results
 
+```java
 	//create a new scan for an application named 'test'
 	Scan scan = new Scan("test");
 	
@@ -24,13 +25,13 @@ Java API to read/write Scan results report that can be processed by the YAG Suit
 	//store it in a JSON file
 	OutputStream output = new FileOutputStream(new File("report.yson"));
 	ScanIO.write(scan,issues output);
-	
+```	
 	
 ### Manage large scan results
 
 In order to reduce memory consumption you can use a ``Supplier<Issue>`` to write the JSON file without storing all informations in memory. This supplier need to returns `null` when no more issue is available.
 
-	
+```java	
 	Scan scan = new Scan("test");
 	...
 	OutputStream output = new FileOutputStream(new File("report.yson"));
@@ -38,7 +39,7 @@ In order to reduce memory consumption you can use a ``Supplier<Issue>`` to write
 	//use a supplier
 	Supplier<Issue> supplier = ... // your specific needs supplier
 	ScanIO.write(results, supplier, output);
-
+```
 
 
 
