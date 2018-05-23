@@ -10,7 +10,7 @@ Java API to read/write Scan results report that can be processed by the [YAG Sui
 	mvn clean install
 ```
 
-### Export a Scan results
+### Export some scan results
 
 ```java
 	//create a new scan for an application named 'test'
