@@ -27,7 +27,7 @@ Java API to read/write Scan results report that can be processed by the [YAG Sui
 	
 	//store it in a JSON file
 	OutputStream output = new FileOutputStream(new File("report.yson"));
-	ScanIO.write(scan,issues output);
+	ScanIO.write(scan,issues, output);
 ```	
 	
 ### Manage large scan results
