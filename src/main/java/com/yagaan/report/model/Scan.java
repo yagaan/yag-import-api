@@ -4,18 +4,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Scan {
+	private String scanner;
 	private int nbIssues;
 	private String application;
 	private List<Checker> checkers;
 
-	public Scan(String application) {
+	public Scan(String scanner,String application) {
 		super();
+		this.scanner = scanner;
 		this.application = application;
 		this.checkers = new ArrayList<Checker>();
 	}
 
+	/**
+	 * Set the number of detected issues.
+	 * 
+	 * @param nbIssues
+	 */
 	public void setNbIssues(int nbIssues) {
 		this.nbIssues = nbIssues;
+	}
+
+	/**
+	 * Set the name of scanner product.
+	 * 
+	 * @param scanner
+	 */
+	public void setScanner(String scanner) {
+		this.scanner = scanner;
+	}
+
+	/**
+	 * Get the name of the scanner product that detect the issues.
+	 * @return
+	 */
+	public String getScanner() {
+		return scanner;
 	}
 
 	/**
