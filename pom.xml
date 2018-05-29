@@ -5,10 +5,36 @@
 	<artifactId>yag-import-api</artifactId>
 	<version>1.0.1-SNAPSHOT</version>
 
-    <properties>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
+	<name>Yagaan SAST Import API model</name>
+	<description>Model API of a report produced by a SAST scanner tool that can be imported in the YAG Suite.</description>
+	<url>https://github.com/alfoch/yag-import-api/</url>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://github.com/alfoch/yag-import-api/blob/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://github.com/alfoch/yag-import-api</url>
+		<connection>scm:git:git://github.com/alfoch/yag-import-api.git</connection>
+	</scm>
+	<developers>
+		<developer>
+			<email>afloch@yagaan.com</email>
+			<name>Antoine Floc'h</name>
+			<url>https://github.com/alfoch</url>
+			<id>alfoch</id>
+		</developer>
+	</developers>
+
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
