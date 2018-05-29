@@ -3,10 +3,7 @@ package com.yagaan.report.io.tests;
 import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +23,7 @@ public class WriteTests {
 
 	@Test
 	public void testWriteWithoutIssues() throws IOException {
-		Scan results = new Scan("test");
+		Scan results = new Scan("myLinter","test");
 		results.addChecker(new Checker("test.rule1").classification(new Classification().cwe(1)));
 		results.addChecker(new Checker("test.rule2").classification(new Classification().cwe(2)));
 
@@ -38,7 +35,7 @@ public class WriteTests {
 
 	@Test
 	public void testWriteWithIssues() throws IOException {
-		Scan results = new Scan("test");
+		Scan results = new Scan("myLinter","test");
 		results.addChecker(new Checker("test.rule1").classification(new Classification().cwe(1)));
 		results.addChecker(new Checker("test.rule2").classification(new Classification().cwe(2)));
 
@@ -53,7 +50,7 @@ public class WriteTests {
 
 	@Test
 	public void testWriteWithIssuesAndSupplier() throws IOException {
-		Scan results = new Scan("test");
+		Scan results = new Scan("myLinter","test");
 		results.addChecker(new Checker("test.rule1").classification(new Classification().cwe(1)));
 		results.addChecker(new Checker("test.rule2").classification(new Classification().cwe(2)));
 

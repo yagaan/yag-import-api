@@ -43,7 +43,8 @@ public final class ScanIO {
 		Gson gson = new Gson();
 		JsonWriter writer = gson.newJsonWriter(new OutputStreamWriter(output));
 		writer.beginObject();
-		writer.name(Scan.class.getSimpleName()).value(results.getApplication());
+		writer.name("application").value(results.getApplication());
+		writer.name("scanner").value(results.getScanner());
 		writer.name(CHECKERS);
 		writer.beginArray();
 		for (Checker checker : results.getCheckers()) {
@@ -138,9 +139,13 @@ public final class ScanIO {
 		Gson gson = new Gson();
 		JsonReader reader = gson.newJsonReader(new InputStreamReader(input));
 		reader.beginObject();
+	
 		reader.nextName();
-		Scan results = new Scan(reader.nextName());
-
+		String application = reader.nextString();
+		reader.nextName();
+		String scanner = reader.nextString();
+		Scan results = new Scan(scanner,application);
+		reader.nextName();
 		List<Checker> checkers = gson.fromJson(reader, new ArrayList<Checker>().getClass());
 		results.setCheckers(checkers);
 		mainResultsConsumer.accept(results);
