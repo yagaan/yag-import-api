@@ -10,12 +10,39 @@ package com.yagaan.report.model;
 public class Checker {
 	private String name;
 	private String description;
+	private Severity severity;
+	private String customSeverity;
 	private Classification classification;
 
 	public Checker(String name) {
 		super();
 		this.name = name;
 	}
+	
+
+	public void setCustomSeverity(String customSeverity) {
+		this.customSeverity = customSeverity;
+	}
+	
+	
+	public String getCustomSeverity() {
+		return customSeverity;
+	}
+	
+	public void setSeverity(Severity severity) {
+		this.severity = severity;
+	}
+
+	public Checker severity(Severity severity) {
+		this.severity = severity;
+		return this;
+	}
+	
+	public Checker customSeverity(String severity) {
+		this.customSeverity = severity;
+		return this;
+	}
+
 
 	public Checker description(String desc) {
 		this.description = desc;

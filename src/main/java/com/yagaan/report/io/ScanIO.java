@@ -32,7 +32,8 @@ public final class ScanIO {
 	/**
 	 * Serialize a results objects as JSON to an output stream. Issues are obtained
 	 * from a supplier that need to returns null in case of end of the supplied
-	 * issues. Use this in case of large number of issues to reduce memory consumption.
+	 * issues. Use this in case of large number of issues to reduce memory
+	 * consumption.
 	 * 
 	 * @param output
 	 * @param results
@@ -45,6 +46,7 @@ public final class ScanIO {
 		writer.beginObject();
 		writer.name("application").value(results.getApplication());
 		writer.name("scanner").value(results.getScanner());
+		writer.name("nbIssues").value(results.getNbIssues());
 		writer.name(CHECKERS);
 		writer.beginArray();
 		for (Checker checker : results.getCheckers()) {
@@ -100,6 +102,39 @@ public final class ScanIO {
 	}
 
 	/**
+	 * Read the basic scan informations (name, application and checkers) from a JSON
+	 * input stream.
+	 * 
+	 * @param input
+	 * @return
+	 * @throws IOException
+	 */
+	public static Scan read(InputStream input) throws IOException {
+		Gson gson = new Gson();
+		JsonReader reader = gson.newJsonReader(new InputStreamReader(input));
+		reader.beginObject();
+		// application name
+		reader.nextName();
+		String application = reader.nextString();
+		// scanner name
+		reader.nextName();
+		String scanner = reader.nextString();
+
+		// nb of issues
+		reader.nextName();
+		int nbIssues = reader.nextInt();
+
+		Scan scan = new Scan(scanner, application);
+		scan.setNbIssues(nbIssues);
+		reader.nextName();
+		List<Checker> checkers = gson.fromJson(reader, new ArrayList<Checker>().getClass());
+		scan.setCheckers(checkers);
+
+		reader.endObject();
+		return scan;
+	}
+
+	/**
 	 * Read some scan results from a JSON input stream. Issues are added into a
 	 * input collection. Prefer to use 'consume' in case of a large input content to
 	 * reduce memory consumption.
@@ -139,12 +174,17 @@ public final class ScanIO {
 		Gson gson = new Gson();
 		JsonReader reader = gson.newJsonReader(new InputStreamReader(input));
 		reader.beginObject();
-	
+		// application name
 		reader.nextName();
 		String application = reader.nextString();
+		// scanner name
 		reader.nextName();
 		String scanner = reader.nextString();
-		Scan results = new Scan(scanner,application);
+		// nb of issues
+		reader.nextName();
+		int nbIssues = reader.nextInt();
+		Scan results = new Scan(scanner, application);
+		results.setNbIssues(nbIssues);
 		reader.nextName();
 		List<Checker> checkers = gson.fromJson(reader, new ArrayList<Checker>().getClass());
 		results.setCheckers(checkers);

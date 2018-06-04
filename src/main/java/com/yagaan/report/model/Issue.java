@@ -5,7 +5,7 @@ import java.util.Optional;
 public class Issue {
 	private String name;
 	private Fragment location;
-	private Severity severity;
+
 	private Status status;
 	private String language;
 
@@ -47,15 +47,6 @@ public class Issue {
 		this.location = location;
 	}
 
-	public void setSeverity(Severity severity) {
-		this.severity = severity;
-	}
-
-	public Issue severity(Severity severity) {
-		this.severity = severity;
-		return this;
-	}
-
 	public void setStatus(Status status) {
 		this.status = status;
 	}
@@ -81,15 +72,6 @@ public class Issue {
 
 	public void setPath(Path path) {
 		this.path = path;
-	}
-
-	/**
-	 * Get the severity of the issue.
-	 * 
-	 * @return
-	 */
-	public Severity getSeverity() {
-		return severity;
 	}
 
 	/**
