@@ -36,10 +36,10 @@ public class WriteTests {
 	@Test
 	public void testWriteWithIssues() throws IOException {
 		Scan results = new Scan("myLinter","test");
-		results.addChecker(new Checker("test.rule1").classification(new Classification().cwe(1)));
+		results.addChecker(new Checker("test.rule1").classification(new Classification().cwe(1)).severity(Severity.BLOCKER));
 		results.addChecker(new Checker("test.rule2").classification(new Classification().cwe(2)));
 
-		Issue issue = new Issue("test.rule1", new Fragment("Test1.java", 12)).severity(Severity.BLOCKER);
+		Issue issue = new Issue("test.rule1", new Fragment("Test1.java", 12));
 
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		ScanIO.write(results, output, issue);
@@ -51,11 +51,11 @@ public class WriteTests {
 	@Test
 	public void testWriteWithIssuesAndSupplier() throws IOException {
 		Scan results = new Scan("myLinter","test");
-		results.addChecker(new Checker("test.rule1").classification(new Classification().cwe(1)));
+		results.addChecker(new Checker("test.rule1").classification(new Classification().cwe(1)).severity(Severity.BLOCKER));
 		results.addChecker(new Checker("test.rule2").classification(new Classification().cwe(2)));
 
 		List<Issue> issues = new ArrayList<Issue>();
-		issues.add(new Issue("test.rule1", new Fragment("Test1.java", 12)).severity(Severity.BLOCKER));
+		issues.add(new Issue("test.rule1", new Fragment("Test1.java", 12)));
 		Iterator<Issue> iterator = issues.iterator();
 		Supplier<Issue> supplier = new Supplier<Issue>() {
 

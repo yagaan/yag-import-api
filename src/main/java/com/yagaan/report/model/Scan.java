@@ -50,6 +50,11 @@ public class Scan {
 	public int getNbIssues() {
 		return nbIssues;
 	}
+	
+	public Scan issues(int nbIssues) {
+		this.nbIssues = nbIssues;
+		return this;
+	}
 
 	/**
 	 * Add a checker description to this scan. This description will be used to
