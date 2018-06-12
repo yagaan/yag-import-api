@@ -1,0 +1,103 @@
+{
+    "application": "degov",
+    "scanner": "Php Code Sniffer",
+    "nbIssues": 0,
+    "checkers": [],
+    "issues": [{
+        "name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnFilesystem",
+        "location": {
+            "file": "testing/features/src/Context/DeGovContext.php",
+            "line": 28,
+            "column": 12,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnFilesystem",
+        "location": {
+            "file": "docroot/sites/default/settings.php",
+            "line": 36,
+            "column": 5,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.Misc.IncludeMismatch.ErrMiscIncludeMismatchNoExt",
+        "location": {
+            "file": "docroot/sites/default/settings.php",
+            "line": 37,
+            "column": 3,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.BadFunctions.EasyRFI.WarnEasyRFI",
+        "location": {
+            "file": "docroot/sites/default/settings.php",
+            "line": 37,
+            "column": 11,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.BadFunctions.EasyRFI.WarnEasyRFI",
+        "location": {
+            "file": "docroot/sites/default/settings.php",
+            "line": 37,
+            "column": 29,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnFilesystem",
+        "location": {
+            "file": "docroot/sites/default/settings.php",
+            "line": 41,
+            "column": 5,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.Misc.IncludeMismatch.ErrMiscIncludeMismatchNoExt",
+        "location": {
+            "file": "docroot/sites/default/settings.php",
+            "line": 42,
+            "column": 3,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.BadFunctions.EasyRFI.WarnEasyRFI",
+        "location": {
+            "file": "docroot/sites/default/settings.php",
+            "line": 42,
+            "column": 11,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.BadFunctions.EasyRFI.WarnEasyRFI",
+        "location": {
+            "file": "docroot/sites/default/settings.php",
+            "line": 42,
+            "column": 29,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.BadFunctions.CryptoFunctions.WarnCryptoFunc",
+        "location": {
+            "file": "docroot/sites/default/settings.platformsh.php",
+            "line": 9,
+            "column": 32,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.BadFunctions.CryptoFunctions.WarnCryptoFunc",
+        "location": {
+            "file": "docroot/sites/default/settings.platformsh.php",
+            "line": 77,
+            "column": 25,
+            "length": -1
+        }
+    }, {
+        "name": "PHPCS_SecurityAudit.BadFunctions.CryptoFunctions.WarnCryptoFunc",
+        "location": {
+            "file": "docroot/sites/default/settings.platformsh.php",
+            "line": 91,
+            "column": 28,
+            "length": -1
+        }
+    }]
+}

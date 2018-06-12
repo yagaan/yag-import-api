@@ -1,0 +1,204 @@
+{
+	"application": "mespronos",
+	"scanner": "Php Code Sniffer",
+	"nbIssues": 20,
+	"checkers": [
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnFilesystem"
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.EasyXSS.EasyXSSwarn"
+		},
+		{
+			"name": "Internal.Tokenizer.Exception"
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.CallbackFunctions.WarnFringestuff"
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnWeirdFilesystem"
+		}
+	],
+	"issues": [
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnFilesystem",
+			"location": {
+				"file": "/assets/examples/parser-json/parser.php",
+				"line": 43,
+				"column": 7,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnFilesystem",
+			"location": {
+				"file": "/assets/examples/parser-json/parser.php",
+				"line": 46,
+				"column": 1,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.EasyXSS.EasyXSSwarn",
+			"location": {
+				"file": "/assets/examples/parser-json/parser.php",
+				"line": 50,
+				"column": 8,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.EasyXSS.EasyXSSwarn",
+			"location": {
+				"file": "/assets/examples/parser-json/parser.php",
+				"line": 54,
+				"column": 29,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnFilesystem",
+			"location": {
+				"file": "/assets/examples/parser-json/parser.php",
+				"line": 57,
+				"column": 3,
+				"length": -1
+			}
+		},
+		{
+			"name": "Internal.Tokenizer.Exception",
+			"location": {
+				"file": "/assets/css/administration.css",
+				"line": 1,
+				"column": 1,
+				"length": -1
+			}
+		},
+		{
+			"name": "Internal.Tokenizer.Exception",
+			"location": {
+				"file": "/assets/css/front.css",
+				"line": 1,
+				"column": 1,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.CallbackFunctions.WarnFringestuff",
+			"location": {
+				"file": "/mespronos_group/src/Entity/Group.php",
+				"line": 194,
+				"column": 22,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.CallbackFunctions.WarnFringestuff",
+			"location": {
+				"file": "/src/Controller/RankingController.php",
+				"line": 38,
+				"column": 5,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.CallbackFunctions.WarnFringestuff",
+			"location": {
+				"file": "/src/Controller/ReminderController.php",
+				"line": 253,
+				"column": 17,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnWeirdFilesystem",
+			"location": {
+				"file": "/src/Controller/UserController.php",
+				"line": 13,
+				"column": 12,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnWeirdFilesystem",
+			"location": {
+				"file": "/src/Controller/ImporterController.php",
+				"line": 18,
+				"column": 12,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnFilesystem",
+			"location": {
+				"file": "/src/Controller/ImporterController.php",
+				"line": 54,
+				"column": 26,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnWeirdFilesystem",
+			"location": {
+				"file": "/src/Entity/Team.php",
+				"line": 13,
+				"column": 12,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnWeirdFilesystem",
+			"location": {
+				"file": "/src/Entity/Getters/LeagueGettersTrait.php",
+				"line": 6,
+				"column": 12,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.CallbackFunctions.WarnFringestuff",
+			"location": {
+				"file": "/src/Entity/Getters/LeagueGettersTrait.php",
+				"line": 51,
+				"column": 16,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.CallbackFunctions.WarnFringestuff",
+			"location": {
+				"file": "/src/Entity/Base/RankingBase.php",
+				"line": 110,
+				"column": 5,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnWeirdFilesystem",
+			"location": {
+				"file": "/src/Entity/Base/MPNContentEntityBase.php",
+				"line": 9,
+				"column": 12,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnWeirdFilesystem",
+			"location": {
+				"file": "/src/Entity/League.php",
+				"line": 17,
+				"column": 12,
+				"length": -1
+			}
+		},
+		{
+			"name": "PHPCS_SecurityAudit.BadFunctions.FilesystemFunctions.WarnFilesystem",
+			"location": {
+				"file": "/src/Form/RemoveDataForm.php",
+				"line": 62,
+				"column": 20,
+				"length": -1
+			}
+		}
+	]
+}

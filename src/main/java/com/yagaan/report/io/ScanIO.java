@@ -105,11 +105,26 @@ public final class ScanIO {
 	 * Read the basic scan informations (name, application and checkers) from a JSON
 	 * input stream.
 	 * 
-	 * @param input
 	 * @return
 	 * @throws IOException
 	 */
+
 	public static Scan read(InputStream input) throws IOException {
+		return read(input, true);
+	}
+
+	/**
+	 * Read the basic scan informations (name, application and checkers if asked)
+	 * from a JSON input stream.
+	 * 
+	 * @param input
+	 *            input stream
+	 * @param readCheckers
+	 *            true if the checkers are read from Json
+	 * @return
+	 * @throws IOException
+	 */
+	public static Scan read(InputStream input, boolean readCheckers) throws IOException {
 		Gson gson = new Gson();
 		JsonReader reader = gson.newJsonReader(new InputStreamReader(input));
 		reader.beginObject();
@@ -126,11 +141,21 @@ public final class ScanIO {
 
 		Scan scan = new Scan(scanner, application);
 		scan.setNbIssues(nbIssues);
-		reader.nextName();
-		List<Checker> checkers = gson.fromJson(reader, new ArrayList<Checker>().getClass());
-		scan.setCheckers(checkers);
-
-		reader.endObject();
+	
+		if (readCheckers) {
+			reader.nextName();
+			reader.beginArray();
+			List<Checker> checkers = new ArrayList<>();
+			while(reader.hasNext()) {
+				Checker checker  = gson.fromJson(reader, Checker.class);
+				checkers.add(checker);
+			}
+		
+			reader.endArray();
+			scan.setCheckers(checkers);
+		}
+		
+		input.close();
 		return scan;
 	}
 
@@ -185,8 +210,17 @@ public final class ScanIO {
 		int nbIssues = reader.nextInt();
 		Scan results = new Scan(scanner, application);
 		results.setNbIssues(nbIssues);
+
+		//checkers
 		reader.nextName();
-		List<Checker> checkers = gson.fromJson(reader, new ArrayList<Checker>().getClass());
+		reader.beginArray();
+		List<Checker> checkers = new ArrayList<>();
+		while(reader.hasNext()) {
+			Checker checker  = gson.fromJson(reader, Checker.class);
+			checkers.add(checker);
+		}
+	
+		reader.endArray();
 		results.setCheckers(checkers);
 		mainResultsConsumer.accept(results);
 		reader.nextName();
@@ -199,6 +233,6 @@ public final class ScanIO {
 		reader.endArray();
 
 		reader.endObject();
-
+		input.close();
 	}
 }

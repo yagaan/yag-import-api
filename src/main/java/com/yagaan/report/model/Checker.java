@@ -10,6 +10,7 @@ package com.yagaan.report.model;
 public class Checker {
 	private String name;
 	private String description;
+	private String documentation;
 	private Severity severity;
 	private String customSeverity;
 	private Classification classification;
@@ -18,17 +19,15 @@ public class Checker {
 		super();
 		this.name = name;
 	}
-	
 
 	public void setCustomSeverity(String customSeverity) {
 		this.customSeverity = customSeverity;
 	}
-	
-	
+
 	public String getCustomSeverity() {
 		return customSeverity;
 	}
-	
+
 	public void setSeverity(Severity severity) {
 		this.severity = severity;
 	}
@@ -37,16 +36,28 @@ public class Checker {
 		this.severity = severity;
 		return this;
 	}
-	
+
 	public Checker customSeverity(String severity) {
 		this.customSeverity = severity;
 		return this;
 	}
 
+	public Severity getSeverity() {
+		return severity;
+	}
 
 	public Checker description(String desc) {
 		this.description = desc;
 		return this;
+	}
+
+	public Checker documentation(String doc) {
+		this.documentation = doc;
+		return this;
+	}
+
+	public String getDocumentation() {
+		return documentation;
 	}
 
 	public Checker classification(Classification classification) {
