@@ -9,6 +9,7 @@ package com.yagaan.report.model;
  */
 public class Checker {
 	private String name;
+	private String language;
 	private String description;
 	private String documentation;
 	private Severity severity;
@@ -18,6 +19,19 @@ public class Checker {
 	public Checker(String name) {
 		super();
 		this.name = name;
+	}
+	
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	
+	public String getLanguage() {
+		return language;
+	}
+	
+	public Checker language(String lang) {
+		this.language = lang;
+		return this;
 	}
 
 	public void setCustomSeverity(String customSeverity) {

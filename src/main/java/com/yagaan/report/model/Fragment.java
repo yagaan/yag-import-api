@@ -9,35 +9,53 @@ package com.yagaan.report.model;
 public class Fragment {
 	private String file;
 	private int line;
-	private int column=-1;
-	private int length=-1;
+	private int eline = -1;
+	private int column = -1;
+	private int ecolumn = -1;
+	private int length = -1;
 
-	
 	public Fragment(String file, int line) {
 		super();
 		this.file = file;
 		this.line = line;
 	}
 
-	
 	public Fragment column(int column) {
 		this.column = column;
 		return this;
 	}
-	
+
 	public Fragment length(int length) {
 		this.length = length;
 		return this;
 	}
-	
+
+	public Fragment endColumn(int col) {
+		this.ecolumn = col;
+		return this;
+	}
+
+	public Fragment endLine(int line) {
+		this.eline = line;
+		return this;
+	}
+
+	public int getEndColumn() {
+		return ecolumn;
+	}
+
+	public int getEndLine() {
+		return eline;
+	}
+
 	public boolean hasColumn() {
-		return column!=-1;
+		return column != -1;
 	}
-	
+
 	public boolean hasLength() {
-		return length!=-1;
+		return length != -1;
 	}
-	
+
 	/**
 	 * Get the source code file relative path of the fragment.
 	 * 
@@ -112,6 +130,6 @@ public class Fragment {
 
 	@Override
 	public String toString() {
-		return file + " at l."+line;
+		return file + " at l." + line;
 	}
 }
