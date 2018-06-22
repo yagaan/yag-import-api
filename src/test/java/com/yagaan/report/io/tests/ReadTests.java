@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,5 +44,20 @@ public class ReadTests {
 		assertEquals("test",read.getApplication());
 		assertEquals(2,issues.size());
 	}
+	
+	@Test
+	public void testReadFromExample() throws IOException {
+		Scan results = ScanIO.read(new FileInputStream(new File("src/test/resources/example.json")));
+		assertEquals("degov", results.getApplication());
+	}
+	
+	@Test
+	public void testReadFromExampleWithCheckers() throws IOException {
+		Scan results = ScanIO.read(new FileInputStream(new File("src/test/resources/exampleWithCheckers.json")));
+		assertEquals("mespronos", results.getApplication());
+		assertEquals(5, results.getCheckers().size());
+		assertEquals(Checker.class,results.getCheckers().get(0).getClass());
+	}
+
 
 }

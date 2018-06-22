@@ -5,7 +5,7 @@ import java.util.Optional;
 public class Issue {
 	private String name;
 	private Fragment location;
-
+	private String message;
 	private Status status;
 	private String language;
 
@@ -14,6 +14,34 @@ public class Issue {
 	public Issue(String name, Fragment location) {
 		this.name = name;
 		this.location = location;
+	}
+
+	/**
+	 * Get an optional message about the issue explanation
+	 * 
+	 * @return
+	 */
+	public String getMessage() {
+		return message;
+	}
+
+	/**
+	 * Set the explanation message of the issue
+	 * 
+	 * @param message
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	/**
+	 * Set the explanation message of the issue
+	 * 
+	 * @param message
+	 */
+	public Issue message(String message) {
+		this.message = message;
+		return this;
 	}
 
 	/**
