@@ -1,5 +1,6 @@
 package com.yagaan.report.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,7 @@ public class Path {
 	private List<Fragment> fragments;
 
 	public Path() {
+		this.fragments = new ArrayList<Fragment>();
 
 	}
 
