@@ -26,15 +26,15 @@ public class Checker {
 		this.name = name;
 		this.otherDocumentation = new ArrayList<Documentation>();
 	}
-	
+
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	
+
 	public String getLanguage() {
 		return language;
 	}
-	
+
 	public Checker language(String lang) {
 		this.language = lang;
 		return this;
@@ -76,12 +76,18 @@ public class Checker {
 		return this;
 	}
 
+	/**
+	 * Get default HTML documentation of the checker.
+	 * 
+	 * @return
+	 */
 	public String getDocumentation() {
 		return documentation;
 	}
-	
+
 	/**
 	 * add some other documentation for this checker
+	 * 
 	 * @param doc
 	 * @return
 	 */
@@ -92,6 +98,11 @@ public class Checker {
 		return this;
 	}
 
+	/**
+	 * Get alternative documentations of the checker.
+	 * 
+	 * @return
+	 */
 	public List<Documentation> getOtherDocumentation() {
 		return otherDocumentation;
 	}
