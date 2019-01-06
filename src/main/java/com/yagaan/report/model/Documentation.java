@@ -1,30 +1,41 @@
 package com.yagaan.report.model;
 
+/**
+ * A documentation can be in different format (markdown, HTML ,etc.) and written for
+ * different languages. Documentation class hold all that informations.
+ * 
+ * @author antoine
+ *
+ */
 public class Documentation {
-	
+
 	/** enumeration of type of documentation : Markdown, HTML */
-	public enum Type {MD, HTML};
-	
+	public enum Type {
+		MD, HTML
+	};
+
 	/** content of the documentation */
 	private String content;
 	private Type type;
 	private String language;
-	
+
 	/**
 	 * html type is the default type of documentation
+	 * 
 	 * @param content
 	 */
 	public Documentation(String content) {
 		this(content, Type.HTML);
 	}
-	
+
 	public Documentation(String content, Type type) {
 		this.content = content;
 		this.type = type;
 	}
-	
+
 	/**
 	 * language of the documentation
+	 * 
 	 * @return
 	 */
 	public String getLanguage() {
@@ -34,7 +45,7 @@ public class Documentation {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	
+
 	public Documentation language(String language) {
 		this.language = language;
 		return this;
@@ -42,6 +53,7 @@ public class Documentation {
 
 	/**
 	 * type of the documentation
+	 * 
 	 * @return
 	 */
 	public Type getType() {
@@ -51,7 +63,7 @@ public class Documentation {
 	public void setType(Type type) {
 		this.type = type;
 	}
-	
+
 	public Documentation type(Type type) {
 		this.type = type;
 		return this;
@@ -59,6 +71,7 @@ public class Documentation {
 
 	/**
 	 * content of the documentation
+	 * 
 	 * @return
 	 */
 	public String getContent() {
@@ -74,5 +87,4 @@ public class Documentation {
 		return this;
 	}
 
-	
 }

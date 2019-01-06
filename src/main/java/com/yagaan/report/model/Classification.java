@@ -17,7 +17,7 @@ public class Classification {
 	}
 
 	public Classification owasp2013(int number) {
-		tags.add("owasp-A" + number);
+		tags.add("owasp-2013-A" + number);
 		return this;
 	}
 

@@ -13,8 +13,7 @@ public class Path {
 	private List<Fragment> fragments;
 
 	public Path() {
-		this.fragments = new ArrayList<Fragment>();
-
+		this.fragments = new ArrayList<>();
 	}
 
 	/**
