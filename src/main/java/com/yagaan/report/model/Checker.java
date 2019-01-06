@@ -1,5 +1,8 @@
 package com.yagaan.report.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A checker is the rule used by the scanner to detect some issues into the
  * scanned application.
@@ -11,7 +14,9 @@ public class Checker {
 	private String name;
 	private String language;
 	private String description;
+	/** default documentation in html */
 	private String documentation;
+	private List<Documentation> otherDocumentation;
 	private Severity severity;
 	private String customSeverity;
 	private Classification classification;
@@ -19,16 +24,17 @@ public class Checker {
 	public Checker(String name) {
 		super();
 		this.name = name;
+		this.otherDocumentation = new ArrayList<Documentation>();
 	}
-	
+
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	
+
 	public String getLanguage() {
 		return language;
 	}
-	
+
 	public Checker language(String lang) {
 		this.language = lang;
 		return this;
@@ -70,8 +76,35 @@ public class Checker {
 		return this;
 	}
 
+	/**
+	 * Get default HTML documentation of the checker.
+	 * 
+	 * @return
+	 */
 	public String getDocumentation() {
 		return documentation;
+	}
+
+	/**
+	 * add some other documentation for this checker
+	 * 
+	 * @param doc
+	 * @return
+	 */
+	public Checker addOtherDocumentation(Documentation... doc) {
+		for (Documentation documentation : doc) {
+			this.otherDocumentation.add(documentation);
+		}
+		return this;
+	}
+
+	/**
+	 * Get alternative documentations of the checker.
+	 * 
+	 * @return
+	 */
+	public List<Documentation> getOtherDocumentation() {
+		return otherDocumentation;
 	}
 
 	public Checker classification(Classification classification) {
