@@ -15,9 +15,14 @@ public class Classification {
 	public Classification() {
 		this.tags = new ArrayList<String>();
 	}
+	
+	public Classification tag(String tag) {
+		this.tags.add(tag);
+		return this;
+	}
 
 	public Classification owasp2013(int number) {
-		tags.add("owasp-2013-A" + number);
+		tags.add("owasp-A" + number+":2013");
 		return this;
 	}
 
@@ -32,7 +37,7 @@ public class Classification {
 	}
 
 	public Classification owasp2017(int number) {
-		tags.add("owasp-2017-A" + number);
+		tags.add("owasp-A" + number+":2017");
 		return this;
 	}
 

@@ -12,7 +12,7 @@ public class Documentation {
 	/** enumeration of type of documentation : Markdown, HTML */
 	public enum Type {
 		MD, HTML
-	};
+	}
 
 	/** content of the documentation */
 	private String content;
