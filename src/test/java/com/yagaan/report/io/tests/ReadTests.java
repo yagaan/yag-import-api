@@ -29,7 +29,7 @@ public class ReadTests {
 		results.addChecker(new Checker("test.rule1").classification(new Classification().cwe(1)));
 		results.addChecker(new Checker("test.rule2").classification(new Classification().cwe(2)));
 
-		Issue issue1 = new Issue("test.rule1", new Fragment("Test1.java", 12));
+		Issue issue1 = new Issue("test.rule1", new Fragment("Test1.java", 12)).message("m1");
 		Issue issue2 = new Issue("test.rule2", new Fragment("Test1.java", 14));
 
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -43,6 +43,29 @@ public class ReadTests {
 		assertEquals("myLinter",read.getScanner());
 		assertEquals("test",read.getApplication());
 		assertEquals(2,issues.size());
+		assertEquals("m1", issues.get(0).getMessage());
+	}
+	
+	@Test
+	public void testConsumeWithIssues() throws IOException {
+		Scan results = new Scan("myLinter","test");
+		results.addChecker(new Checker("test.rule1").classification(new Classification().cwe(1)));
+		results.addChecker(new Checker("test.rule2").classification(new Classification().cwe(2)));
+
+		Issue issue1 = new Issue("test.rule1", new Fragment("Test1.java", 12)).message("m1");
+		Issue issue2 = new Issue("test.rule2", new Fragment("Test1.java", 14));
+
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		ScanIO.write(results, output, issue1,issue2);
+
+		String value = new String(output.toByteArray());
+		assertTrue(value.contains("Test1.java"));
+	
+		List<Issue> issues  = new ArrayList<>();
+		ScanIO.consume(new ByteArrayInputStream(value.getBytes()),s->{}, i->{issues.add(i);});
+		
+		assertEquals(2,issues.size());
+		assertEquals("m1", issues.get(0).getMessage());
 	}
 	
 	@Test

@@ -8,12 +8,14 @@ public class Scan {
 	private int nbIssues;
 	private String application;
 	private List<Checker> checkers;
+	private List<Issue> issues;
 
 	public Scan(String scanner,String application) {
 		super();
 		this.scanner = scanner;
 		this.application = application;
 		this.checkers = new ArrayList<Checker>();
+		this.issues = new ArrayList<>();
 	}
 
 	/**
@@ -25,6 +27,15 @@ public class Scan {
 		this.nbIssues = nbIssues;
 	}
 
+	
+	public List<Issue> getIssues() {
+		return issues;
+	}
+	
+	public void setIssues(List<Issue> issues) {
+		this.issues = issues;
+	}
+	
 	/**
 	 * Set the name of scanner product.
 	 * 
