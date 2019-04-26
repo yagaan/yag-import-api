@@ -2,20 +2,35 @@ package com.yagaan.report.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Scan {
 	private String scanner;
 	private int nbIssues;
 	private String application;
+	private String language;
 	private List<Checker> checkers;
 	private List<Issue> issues;
 
-	public Scan(String scanner,String application) {
+	public Scan(final String scanner, final String application) {
 		super();
 		this.scanner = scanner;
 		this.application = application;
-		this.checkers = new ArrayList<Checker>();
+		this.checkers = new ArrayList<>();
 		this.issues = new ArrayList<>();
+	}
+
+	public void setLanguage(final String language) {
+		this.language = language;
+	}
+
+	/**
+	 * Get the default language of this scan.
+	 * 
+	 * @return
+	 */
+	public Optional<String> getLanguage() {
+		return Optional.ofNullable(this.language);
 	}
 
 	/**
@@ -23,34 +38,34 @@ public class Scan {
 	 * 
 	 * @param nbIssues
 	 */
-	public void setNbIssues(int nbIssues) {
+	public void setNbIssues(final int nbIssues) {
 		this.nbIssues = nbIssues;
 	}
 
-	
 	public List<Issue> getIssues() {
-		return issues;
+		return this.issues;
 	}
-	
-	public void setIssues(List<Issue> issues) {
+
+	public void setIssues(final List<Issue> issues) {
 		this.issues = issues;
 	}
-	
+
 	/**
 	 * Set the name of scanner product.
 	 * 
 	 * @param scanner
 	 */
-	public void setScanner(String scanner) {
+	public void setScanner(final String scanner) {
 		this.scanner = scanner;
 	}
 
 	/**
 	 * Get the name of the scanner product that detect the issues.
+	 * 
 	 * @return
 	 */
 	public String getScanner() {
-		return scanner;
+		return this.scanner;
 	}
 
 	/**
@@ -59,10 +74,10 @@ public class Scan {
 	 * @return
 	 */
 	public int getNbIssues() {
-		return nbIssues;
+		return this.nbIssues;
 	}
-	
-	public Scan issues(int nbIssues) {
+
+	public Scan issues(final int nbIssues) {
 		this.nbIssues = nbIssues;
 		return this;
 	}
@@ -73,11 +88,11 @@ public class Scan {
 	 * 
 	 * @param checker
 	 */
-	public void addChecker(Checker checker) {
-		checkers.add(checker);
+	public void addChecker(final Checker checker) {
+		this.checkers.add(checker);
 	}
 
-	public void setCheckers(List<Checker> checkers) {
+	public void setCheckers(final List<Checker> checkers) {
 		this.checkers = checkers;
 	}
 
@@ -87,7 +102,7 @@ public class Scan {
 	 * @return
 	 */
 	public String getApplication() {
-		return application;
+		return this.application;
 	}
 
 	/**
@@ -97,7 +112,7 @@ public class Scan {
 	 * @return
 	 */
 	public List<Checker> getCheckers() {
-		return checkers;
+		return this.checkers;
 	}
 
 }

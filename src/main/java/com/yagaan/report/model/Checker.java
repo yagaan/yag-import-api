@@ -21,57 +21,57 @@ public class Checker {
 	private String customSeverity;
 	private Classification classification;
 
-	public Checker(String name) {
+	public Checker(final String name) {
 		super();
 		this.name = name;
-		this.otherDocumentation = new ArrayList<Documentation>();
+		this.otherDocumentation = new ArrayList<>();
 	}
 
-	public void setLanguage(String language) {
+	public void setLanguage(final String language) {
 		this.language = language;
 	}
 
 	public String getLanguage() {
-		return language;
+		return this.language;
 	}
 
-	public Checker language(String lang) {
+	public Checker language(final String lang) {
 		this.language = lang;
 		return this;
 	}
 
-	public void setCustomSeverity(String customSeverity) {
+	public void setCustomSeverity(final String customSeverity) {
 		this.customSeverity = customSeverity;
 	}
 
 	public String getCustomSeverity() {
-		return customSeverity;
+		return this.customSeverity;
 	}
 
-	public void setSeverity(Severity severity) {
+	public void setSeverity(final Severity severity) {
 		this.severity = severity;
 	}
 
-	public Checker severity(Severity severity) {
+	public Checker severity(final Severity severity) {
 		this.severity = severity;
 		return this;
 	}
 
-	public Checker customSeverity(String severity) {
+	public Checker customSeverity(final String severity) {
 		this.customSeverity = severity;
 		return this;
 	}
 
 	public Severity getSeverity() {
-		return severity;
+		return this.severity;
 	}
 
-	public Checker description(String desc) {
+	public Checker description(final String desc) {
 		this.description = desc;
 		return this;
 	}
 
-	public Checker documentation(String doc) {
+	public Checker documentation(final String doc) {
 		this.documentation = doc;
 		return this;
 	}
@@ -82,7 +82,7 @@ public class Checker {
 	 * @return
 	 */
 	public String getDocumentation() {
-		return documentation;
+		return this.documentation;
 	}
 
 	/**
@@ -91,8 +91,8 @@ public class Checker {
 	 * @param doc
 	 * @return
 	 */
-	public Checker addOtherDocumentation(Documentation... doc) {
-		for (Documentation documentation : doc) {
+	public Checker addOtherDocumentation(final Documentation... doc) {
+		for (final Documentation documentation : doc) {
 			this.otherDocumentation.add(documentation);
 		}
 		return this;
@@ -104,10 +104,10 @@ public class Checker {
 	 * @return
 	 */
 	public List<Documentation> getOtherDocumentation() {
-		return otherDocumentation;
+		return this.otherDocumentation;
 	}
 
-	public Checker classification(Classification classification) {
+	public Checker classification(final Classification classification) {
 		this.classification = classification;
 		return this;
 	}
@@ -118,7 +118,7 @@ public class Checker {
 	 * @return
 	 */
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class Checker {
 	 * @return
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
@@ -137,11 +137,11 @@ public class Checker {
 	 * @return
 	 */
 	public Classification getClassification() {
-		return classification;
+		return this.classification;
 	}
 
 	@Override
 	public String toString() {
-		return name;
+		return this.name;
 	}
 }
