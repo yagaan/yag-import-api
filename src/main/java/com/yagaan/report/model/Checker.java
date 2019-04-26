@@ -97,6 +97,13 @@ public class Checker {
 		}
 		return this;
 	}
+	
+	public Checker addOtherDocumentations(final List<Documentation> docs) {
+		for (final Documentation documentation : docs) {
+			this.otherDocumentation.add(documentation);
+		}
+		return this;
+	}
 
 	/**
 	 * Get alternative documentations of the checker.

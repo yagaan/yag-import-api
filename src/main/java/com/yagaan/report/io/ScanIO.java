@@ -11,10 +11,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -39,21 +41,22 @@ public final class ScanIO {
 	 * @param output
 	 * @throws IOException
 	 */
-	public static void toJson(Scan results, OutputStream output) throws IOException {
-		Gson gson = new Gson();
+	public static void toJson(final Scan results, final OutputStream output) throws IOException {
+		final Gson gson = new Gson();
 
 		IOUtils.write(gson.toJson(results), output, StandardCharsets.UTF_8);
 	}
 
 	/**
-	 * Load a scan from JSON
+	 * Load a scan from JSON. In case of very large report file, prefer the read method
+	 * that do not require to load the whole file into memory.
 	 * 
 	 * @param results
 	 * @param output
 	 * @throws IOException
 	 */
-	public static Scan fromJson(InputStream input) throws IOException {
-		Gson gson = new Gson();
+	public static Scan fromJson(final InputStream input) throws IOException {
+		final Gson gson = new Gson();
 		return gson.fromJson(IOUtils.toString(input, StandardCharsets.UTF_8), Scan.class);
 	}
 
@@ -68,16 +71,24 @@ public final class ScanIO {
 	 * @param issues
 	 * @throws IOException
 	 */
-	public static void write(Scan results, Supplier<Issue> issues, OutputStream output) throws IOException {
-		Gson gson = new Gson();
+	public static void write(final Scan results, final Supplier<Issue> issues, final OutputStream output)
+			throws IOException {
+		final Gson gson = new Gson();
 		try (JsonWriter writer = gson.newJsonWriter(new OutputStreamWriter(output))) {
 			writer.beginObject();
 			writer.name("application").value(results.getApplication());
 			writer.name("scanner").value(results.getScanner());
+			final Optional<String> language = results.getLanguage();
+			if (language.isPresent()) {
+				writer.name("language").value(language.get());
+			} else {
+				writer.name("language").value("");
+			}
+
 			writer.name("nbIssues").value(results.getNbIssues());
 			writer.name(CHECKERS);
 			writer.beginArray();
-			for (Checker checker : results.getCheckers()) {
+			for (final Checker checker : results.getCheckers()) {
 				writer.jsonValue(gson.toJson(checker));
 			}
 			writer.endArray();
@@ -106,27 +117,25 @@ public final class ScanIO {
 	 * @param issues
 	 * @throws IOException
 	 */
-	public static void write(Scan results, Collection<Issue> issues, OutputStream output) throws IOException {
-		Iterator<Issue> iterator = issues.iterator();
+	public static void write(final Scan results, final Collection<Issue> issues, final OutputStream output)
+			throws IOException {
+		final Iterator<Issue> iterator = issues.iterator();
 		write(results, iterator, output);
 	}
 
-	public static void write(Scan results, Iterator<Issue> iterator, OutputStream output) throws IOException {
-		Supplier<Issue> supplier = new Supplier<Issue>() {
-
-			@Override
-			public Issue get() {
-				if (iterator.hasNext()) {
-					return iterator.next();
-				}
-				return null;
+	public static void write(final Scan results, final Iterator<Issue> iterator, final OutputStream output)
+			throws IOException {
+		final Supplier<Issue> supplier = () -> {
+			if (iterator.hasNext()) {
+				return iterator.next();
 			}
+			return null;
 		};
 		write(results, supplier, output);
 	}
 
-	public static void write(Scan results, OutputStream output, Issue... issues) throws IOException {
-		Iterator<Issue> iterator = Arrays.asList(issues).iterator();
+	public static void write(final Scan results, final OutputStream output, final Issue... issues) throws IOException {
+		final Iterator<Issue> iterator = Arrays.asList(issues).iterator();
 		write(results, iterator, output);
 	}
 
@@ -138,7 +147,7 @@ public final class ScanIO {
 	 * @throws IOException
 	 */
 
-	public static Scan read(InputStream input) throws IOException {
+	public static Scan read(final InputStream input) throws IOException {
 		return read(input, true);
 	}
 
@@ -151,30 +160,38 @@ public final class ScanIO {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Scan read(InputStream input, boolean readCheckers) throws IOException {
-		Gson gson = new Gson();
+	public static Scan read(final InputStream input, final boolean readCheckers) throws IOException {
+		final Gson gson = new Gson();
 		try (JsonReader reader = gson.newJsonReader(new InputStreamReader(input))) {
 			reader.beginObject();
 			// application name
 			reader.nextName();
-			String application = reader.nextString();
+			final String application = reader.nextString();
 			// scanner name
 			reader.nextName();
-			String scanner = reader.nextString();
+			final String scanner = reader.nextString();
 
+			// scanner defaultLanguage
+			reader.nextName();
+			String language = null;
+			final String lang = reader.nextString();
+			if (!StringUtils.isEmpty(lang)) {
+				language = lang;
+			}
 			// nb of issues
 			reader.nextName();
-			int nbIssues = reader.nextInt();
+			final int nbIssues = reader.nextInt();
 
-			Scan scan = new Scan(scanner, application);
+			final Scan scan = new Scan(scanner, application);
 			scan.setNbIssues(nbIssues);
+			scan.setLanguage(language);
 
 			if (readCheckers) {
 				reader.nextName();
 				reader.beginArray();
-				List<Checker> checkers = new ArrayList<>();
+				final List<Checker> checkers = new ArrayList<>();
 				while (reader.hasNext()) {
-					Checker checker = gson.fromJson(reader, Checker.class);
+					final Checker checker = gson.fromJson(reader, Checker.class);
 					checkers.add(checker);
 				}
 
@@ -196,8 +213,8 @@ public final class ScanIO {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Scan read(InputStream input, Collection<Issue> issues) throws IOException {
-		List<Scan> resultList = new ArrayList<Scan>();
+	public static Scan read(final InputStream input, final Collection<Issue> issues) throws IOException {
+		final List<Scan> resultList = new ArrayList<>();
 
 		consume(input, (r) -> {
 			resultList.add(r);
@@ -205,7 +222,7 @@ public final class ScanIO {
 			issues.add(i);
 		});
 		if (resultList.size() == 1) {
-			Scan results = resultList.get(0);
+			final Scan results = resultList.get(0);
 			return results;
 		}
 		throw new IllegalStateException("More than one scan in JSON.");
@@ -220,29 +237,29 @@ public final class ScanIO {
 	 * @param issuesConsumer      consumer of the issues
 	 * @throws IOException
 	 */
-	public static void consume(InputStream input, Consumer<Scan> mainResultsConsumer, Consumer<Issue> issuesConsumer)
-			throws IOException {
-		Gson gson = new Gson();
+	public static void consume(final InputStream input, final Consumer<Scan> mainResultsConsumer,
+			final Consumer<Issue> issuesConsumer) throws IOException {
+		final Gson gson = new Gson();
 		try (JsonReader reader = gson.newJsonReader(new InputStreamReader(input))) {
 			reader.beginObject();
 			// application name
 			reader.nextName();
-			String application = reader.nextString();
+			final String application = reader.nextString();
 			// scanner name
 			reader.nextName();
-			String scanner = reader.nextString();
+			final String scanner = reader.nextString();
 			// nb of issues
 			reader.nextName();
-			int nbIssues = reader.nextInt();
-			Scan results = new Scan(scanner, application);
+			final int nbIssues = reader.nextInt();
+			final Scan results = new Scan(scanner, application);
 			results.setNbIssues(nbIssues);
 
 			// checkers
 			reader.nextName();
 			reader.beginArray();
-			List<Checker> checkers = new ArrayList<>();
+			final List<Checker> checkers = new ArrayList<>();
 			while (reader.hasNext()) {
-				Checker checker = gson.fromJson(reader, Checker.class);
+				final Checker checker = gson.fromJson(reader, Checker.class);
 				checkers.add(checker);
 			}
 
@@ -252,7 +269,7 @@ public final class ScanIO {
 			reader.nextName();
 			reader.beginArray();
 			while (reader.hasNext()) {
-				Issue issue = gson.fromJson(reader, Issue.class);
+				final Issue issue = gson.fromJson(reader, Issue.class);
 				issuesConsumer.accept(issue);
 			}
 
