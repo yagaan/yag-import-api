@@ -248,6 +248,12 @@ public final class ScanIO {
 			// scanner name
 			reader.nextName();
 			final String scanner = reader.nextString();
+
+			// scanner defaultLanguage
+			reader.nextName();
+			reader.nextString();
+		
+			
 			// nb of issues
 			reader.nextName();
 			final int nbIssues = reader.nextInt();
