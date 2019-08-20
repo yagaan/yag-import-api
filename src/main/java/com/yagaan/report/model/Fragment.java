@@ -14,12 +14,22 @@ public class Fragment {
 	private int ecolumn = -1;
 	private int length = -1;
 
+	/**
+	 * 
+	 * @param file file path
+	 * @param line line number, 1 based.
+	 */
 	public Fragment(String file, int line) {
 		super();
 		this.file = file;
 		this.line = line;
 	}
 
+	/**
+	 * 
+	 * @param column column number, 0-based
+	 * @return the current fragment
+	 */
 	public Fragment column(int column) {
 		this.column = column;
 		return this;
@@ -30,20 +40,36 @@ public class Fragment {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param col a column number, 0-based
+	 * @return then current fragment
+	 */
 	public Fragment endColumn(int col) {
 		this.ecolumn = col;
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param line a line number, 1-based
+	 * @return then current fragment
+	 */
 	public Fragment endLine(int line) {
 		this.eline = line;
 		return this;
 	}
 
+	/**
+	 * @return the last column of the selection, 0-based, or -1 if undefined
+	 */
 	public int getEndColumn() {
 		return ecolumn;
 	}
 
+	/**
+	 * @return the last line of the selection, 1-based, or -1 if undefined
+	 */
 	public int getEndLine() {
 		return eline;
 	}
@@ -75,7 +101,7 @@ public class Fragment {
 	}
 
 	/**
-	 * Get the start line of the code fragment.
+	 * Get the start line of the code fragment, 1-based.
 	 * 
 	 * @return
 	 */
@@ -84,7 +110,7 @@ public class Fragment {
 	}
 
 	/**
-	 * Set the start line of the code fragment.
+	 * Set the start line of the code fragment, 1-based.
 	 * 
 	 * @param line
 	 */
@@ -93,7 +119,7 @@ public class Fragment {
 	}
 
 	/**
-	 * Get the start column of the code fragment.
+	 * Get the start column of the code fragment, 0-based.
 	 * 
 	 * @return
 	 */
@@ -102,7 +128,7 @@ public class Fragment {
 	}
 
 	/**
-	 * Set the start column of the code fragment.
+	 * Set the start column of the code fragment, 0-based.
 	 * 
 	 * @param column
 	 */
@@ -111,7 +137,7 @@ public class Fragment {
 	}
 
 	/**
-	 * Get the length of the code fragment.
+	 * Get the length of the code fragment, or -1 if undefined.
 	 * 
 	 * @return
 	 */
