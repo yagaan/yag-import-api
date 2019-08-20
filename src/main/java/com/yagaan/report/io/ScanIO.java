@@ -36,7 +36,7 @@ public final class ScanIO {
 
 	/**
 	 * Serialize a scan as JSON to an output stream.
-	 * 
+	 *
 	 * @param results
 	 * @param output
 	 * @throws IOException
@@ -48,9 +48,9 @@ public final class ScanIO {
 	}
 
 	/**
-	 * Load a scan from JSON. In case of very large report file, prefer the read method
-	 * that do not require to load the whole file into memory.
-	 * 
+	 * Load a scan from JSON. In case of very large report file, prefer the read
+	 * method that do not require to load the whole file into memory.
+	 *
 	 * @param results
 	 * @param output
 	 * @throws IOException
@@ -65,7 +65,7 @@ public final class ScanIO {
 	 * from a supplier that need to returns null in case of end of the supplied
 	 * issues. Use this in case of large number of issues to reduce memory
 	 * consumption.
-	 * 
+	 *
 	 * @param output
 	 * @param results
 	 * @param issues
@@ -111,7 +111,7 @@ public final class ScanIO {
 	/**
 	 * Serialize a scan results objects as JSON to an output stream. Issues are
 	 * contained into a collection.
-	 * 
+	 *
 	 * @param output
 	 * @param results
 	 * @param issues
@@ -142,7 +142,7 @@ public final class ScanIO {
 	/**
 	 * Read the basic scan informations (name, application and checkers) from a JSON
 	 * input stream.
-	 * 
+	 *
 	 * @return
 	 * @throws IOException
 	 */
@@ -154,7 +154,7 @@ public final class ScanIO {
 	/**
 	 * Read the basic scan informations (name, application and checkers if asked)
 	 * from a JSON input stream.
-	 * 
+	 *
 	 * @param input        input stream
 	 * @param readCheckers true if the checkers are read from Json
 	 * @return
@@ -162,53 +162,78 @@ public final class ScanIO {
 	 */
 	public static Scan read(final InputStream input, final boolean readCheckers) throws IOException {
 		final Gson gson = new Gson();
+		String application = null;
+		String scanner = null;
+		int nbIssues = -1;
+		String language = null;
+		List<Checker> checkers = null;
 		try (JsonReader reader = gson.newJsonReader(new InputStreamReader(input))) {
+
 			reader.beginObject();
-			// application name
-			reader.nextName();
-			final String application = reader.nextString();
-			// scanner name
-			reader.nextName();
-			final String scanner = reader.nextString();
-
-			// scanner defaultLanguage
-			reader.nextName();
-			String language = null;
-			final String lang = reader.nextString();
-			if (!StringUtils.isEmpty(lang)) {
-				language = lang;
-			}
-			// nb of issues
-			reader.nextName();
-			final int nbIssues = reader.nextInt();
-
-			final Scan scan = new Scan(scanner, application);
-			scan.setNbIssues(nbIssues);
-			scan.setLanguage(language);
-
-			if (readCheckers) {
-				reader.nextName();
-				reader.beginArray();
-				final List<Checker> checkers = new ArrayList<>();
-				while (reader.hasNext()) {
-					final Checker checker = gson.fromJson(reader, Checker.class);
-					checkers.add(checker);
+			object_read: while (reader.hasNext()) {
+				final String nextName = reader.nextName();
+				switch (nextName) {
+				case "application":
+					application = reader.nextString();
+					break;
+				case "scanner":
+					scanner = reader.nextString();
+					break;
+				case "nbIssues":
+					nbIssues = reader.nextInt();
+					break;
+				case "language":
+					language = reader.nextString();
+					break;
+				case "checkers":
+					if (!readCheckers) {
+						if (application == null || scanner == null || nbIssues == -1 || language == null) {
+							/* checkers appears before some other values, skip the checkers */
+							reader.skipValue();
+						} else {
+							// we are all set: exit
+							break object_read;
+						}
+					} else {
+						reader.beginArray();
+						checkers = new ArrayList<>();
+						while (reader.hasNext()) {
+							final Checker checker = gson.fromJson(reader, Checker.class);
+							checkers.add(checker);
+						}
+						reader.endArray();
+					}
+					break;
+				default:
+					if (application == null || scanner == null || nbIssues == -1 || language == null
+					|| (readCheckers && checkers == null)) {
+						reader.skipValue();
+					} else {
+						// we are all set: exit
+						break object_read;
+					}
 				}
-
-				reader.endArray();
-				scan.setCheckers(checkers);
 			}
-
-			input.close();
-			return scan;
 		}
+
+		final Scan scan = new Scan(scanner, application);
+		scan.setNbIssues(nbIssues);
+		if (!StringUtils.isEmpty(language)) {
+			scan.setLanguage(language);
+		}
+
+		if (checkers != null) {
+			scan.setCheckers(checkers);
+		}
+
+		return scan;
 	}
 
 	/**
 	 * Read some scan results from a JSON input stream. Issues are added into a
 	 * input collection. Prefer to use 'consume' in case of a large input content to
 	 * reduce memory consumption.
-	 * 
+	 *
 	 * @param input
 	 * @return
 	 * @throws IOException
@@ -216,11 +241,7 @@ public final class ScanIO {
 	public static Scan read(final InputStream input, final Collection<Issue> issues) throws IOException {
 		final List<Scan> resultList = new ArrayList<>();
 
-		consume(input, (r) -> {
-			resultList.add(r);
-		}, (i) -> {
-			issues.add(i);
-		});
+		consume(input, resultList::add, issues::add);
 		if (resultList.size() == 1) {
 			final Scan results = resultList.get(0);
 			return results;
@@ -230,7 +251,7 @@ public final class ScanIO {
 
 	/**
 	 * Consume a JSON export of some scan results.
-	 * 
+	 *
 	 * @param input
 	 * @param mainResultsConsumer consumer of the main results entity (checkers and
 	 *                            application name)
@@ -240,49 +261,65 @@ public final class ScanIO {
 	public static void consume(final InputStream input, final Consumer<Scan> mainResultsConsumer,
 			final Consumer<Issue> issuesConsumer) throws IOException {
 		final Gson gson = new Gson();
+		String application = null;
+		String scanner = null;
+		int nbIssues = -1;
+		String language = null;
+		List<Checker> checkers = null;
 		try (JsonReader reader = gson.newJsonReader(new InputStreamReader(input))) {
+
 			reader.beginObject();
-			// application name
-			reader.nextName();
-			final String application = reader.nextString();
-			// scanner name
-			reader.nextName();
-			final String scanner = reader.nextString();
-
-			// scanner defaultLanguage
-			reader.nextName();
-			reader.nextString();
-		
-			
-			// nb of issues
-			reader.nextName();
-			final int nbIssues = reader.nextInt();
-			final Scan results = new Scan(scanner, application);
-			results.setNbIssues(nbIssues);
-
-			// checkers
-			reader.nextName();
-			reader.beginArray();
-			final List<Checker> checkers = new ArrayList<>();
 			while (reader.hasNext()) {
-				final Checker checker = gson.fromJson(reader, Checker.class);
-				checkers.add(checker);
+				final String nextName = reader.nextName();
+				switch (nextName) {
+				case "application":
+					application = reader.nextString();
+					break;
+				case "scanner":
+					scanner = reader.nextString();
+					break;
+				case "nbIssues":
+					nbIssues = reader.nextInt();
+					break;
+				case "language":
+					language = reader.nextString();
+					break;
+				case "checkers":
+					reader.beginArray();
+					checkers = new ArrayList<>();
+					while (reader.hasNext()) {
+						final Checker checker = gson.fromJson(reader, Checker.class);
+						checkers.add(checker);
+					}
+					reader.endArray();
+					break;
+				case "issues":
+					reader.beginArray();
+					while (reader.hasNext()) {
+						final Issue issue = gson.fromJson(reader, Issue.class);
+						issuesConsumer.accept(issue);
+					}
+					reader.endArray();
+					break;
+				default:
+					throw new IllegalStateException("unexpected property: " + nextName);
+				}
+
+				if (application != null && scanner != null && nbIssues != -1 && language != null && checkers != null) {
+					final Scan scan = new Scan(scanner, application);
+					scan.setNbIssues(nbIssues);
+					if (!StringUtils.isEmpty(language)) {
+						scan.setLanguage(language);
+					}
+					scan.setCheckers(checkers);
+					mainResultsConsumer.accept(scan);
+					application = null;
+					scanner = null;
+					nbIssues = -1;
+					language = null;
+					checkers = null;
+				}
 			}
-
-			reader.endArray();
-			results.setCheckers(checkers);
-			mainResultsConsumer.accept(results);
-			reader.nextName();
-			reader.beginArray();
-			while (reader.hasNext()) {
-				final Issue issue = gson.fromJson(reader, Issue.class);
-				issuesConsumer.accept(issue);
-			}
-
-			reader.endArray();
-
-			reader.endObject();
 		}
-		input.close();
 	}
 }
